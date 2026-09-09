@@ -13,8 +13,8 @@ are unchanged. This supersedes the earlier notes about leaving the sharing spinn
 Verification: 29 focused tests pass, including loading, successful fetch, failed fetch, draft preservation,
 and sheet behavior. TypeScript, scoped ESLint/Prettier, the production web build, signed iOS build, and
 signature verification pass. The shared client changes remain local and are not part of this repository.
-This build was installed and launched on the paired iPhone on September 9, 2026 (UTC); visual confirmation
-of the sharing placeholder remains a phone check for the user.
+This build was installed on the paired iPhone on September 9, 2026 (UTC). Automatic launch was blocked
+because the phone was locked. Opening the app and checking the sharing placeholder remain user phone checks.
 
 ## Earlier follow-up: Edit List and the keyboard
 
