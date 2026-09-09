@@ -1,0 +1,21 @@
+{
+  "name": "groceries-ios",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "copy:web": "node scripts/copy-web.mjs",
+    "sync:ios": "cap sync ios",
+    "open:ios": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0"
+  }
+}

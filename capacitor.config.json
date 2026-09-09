@@ -1,0 +1,13 @@
+{
+  "appId": "com.christopherbrenner.groceries",
+  "appName": "Groceries",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}
