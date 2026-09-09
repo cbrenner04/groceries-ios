@@ -4,6 +4,30 @@ Personal iPhone test app that packages the existing Groceries React client in a 
 It uses the production API at `https://cjb-groceries.herokuapp.com`.
 Edits in this app change your real grocery data.
 
+## Latest follow-up: Edit List and the keyboard
+
+The user reports that item editing is improved and sharing is acceptable, but Edit List on the Lists
+page opens behind the keyboard. That form is fetched before the sheet opens, so its first field is
+available for the sheet's existing autofocus immediately.
+
+Only the Edit List sheet now opts into keyboard avoidance: its position and maximum height follow
+the visible viewport as the keyboard opens, pans, and closes. The update does not reset form state or
+refocus inputs. Other sheets and the sharing spinner are unchanged. Sharing explicitly shows a spinner
+while fetching sharing details; the Lists route uses skeleton cards for its loading state.
+
+Verification: 160 tests across eight focused suites pass, including keyboard-size changes, production
+sheet animation, draft/focus preservation, listener cleanup, and the actual ListsContainer edit form.
+TypeScript, scoped ESLint/Prettier, production web build, signed iOS build, and signature verification pass.
+Existing Vite environment/chevron warnings remain. Device keyboard positioning still needs user confirmation.
+The keyboard-fix build was installed and launched on the paired iPhone on September 9, 2026 (UTC).
+
+Phone check: from Lists, edit a list, confirm its name is visible above the keyboard without dragging
+the sheet, then type and save. Hide/reopen the keyboard and verify the form stays reachable.
+The shared client changes remain local; this repository records the shell and verification notes only.
+Apple enrollment/domain association remain deferred.
+
+Implementation reference: [VisualViewport](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport).
+
 ## Requirements
 
 - macOS with Xcode 26 or later and its iOS platform support installed.
