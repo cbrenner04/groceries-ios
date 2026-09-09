@@ -4,7 +4,19 @@ Personal iPhone test app that packages the existing Groceries React client in a 
 It uses the production API at `https://cjb-groceries.herokuapp.com`.
 Edits in this app change your real grocery data.
 
-## Latest follow-up: Edit List and the keyboard
+## Latest follow-up: sharing without a spinner
+
+Sharing now uses a static, non-pulsing placeholder while its data loads, with a screen-reader loading
+status. The spinner is removed from the sharing sheet only; other loading states and sharing behavior
+are unchanged. This supersedes the earlier notes about leaving the sharing spinner in place.
+
+Verification: 29 focused tests pass, including loading, successful fetch, failed fetch, draft preservation,
+and sheet behavior. TypeScript, scoped ESLint/Prettier, the production web build, signed iOS build, and
+signature verification pass. The shared client changes remain local and are not part of this repository.
+This build was installed and launched on the paired iPhone on September 9, 2026 (UTC); visual confirmation
+of the sharing placeholder remains a phone check for the user.
+
+## Earlier follow-up: Edit List and the keyboard
 
 The user reports that item editing is improved and sharing is acceptable, but Edit List on the Lists
 page opens behind the keyboard. That form is fetched before the sheet opens, so its first field is
