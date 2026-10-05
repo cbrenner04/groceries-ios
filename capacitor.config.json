@@ -2,6 +2,9 @@
   "appId": "com.christopherbrenner.groceries",
   "appName": "Groceries",
   "webDir": "www",
+  "server": {
+    "hostname": "groceries-app.com"
+  },
   "plugins": {
     "CapacitorHttp": {
       "enabled": true

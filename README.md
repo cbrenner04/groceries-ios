@@ -12,7 +12,7 @@ Actions in the app change real grocery data.
 - macOS with Xcode 26 or later and its iOS platform support.
 - Node 22 or later and npm.
 - A sibling `groceries-client` checkout with its dependencies installed.
-- An Apple Account configured in Xcode.
+- An Apple Developer Program team with Associated Domains support configured in Xcode.
 - For device testing, a trusted iPhone with Developer Mode enabled.
 
 ## Development workflow
@@ -54,8 +54,7 @@ Use the client branch you intend to test before building.
 6. Select the iPhone as the run destination and choose Product > Run.
 7. If prompted, trust the development app under Settings > General > VPN & Device Management.
 
-Personal Team provisioning is short-lived; rebuild and reinstall when it expires.
-App Store and TestFlight distribution are not configured.
+The team's provisioning profile must include Associated Domains. App Store and TestFlight distribution are not configured.
 
 ## Build checks
 
@@ -87,5 +86,18 @@ Do not commit generated bundles, signing credentials, provisioning profiles, or 
 ## Authentication
 
 Authentication follows the shared client's session-storage behavior, so a full app termination may require
-signing in again. Automatic password-manager association with `groceries-app.com` is not configured.
+signing in again. Password AutoFill associates the app with `groceries-app.com` through the Associated Domains
+entitlement and the matching website association file. The app still loads the bundled client locally.
+
+Use an Apple Developer Program team that supports Associated Domains for device signing; a free Personal Team
+cannot provision this capability. Enable Associated Domains for the app identifier and refresh the provisioning
+profile when needed. The website's `/.well-known/apple-app-site-association` file must include the signed app's
+application identifier, be served as `application/json` over HTTPS, and have no redirects.
+
+Deploy the matching client association file before installing the signed app. Apple's association cache may delay
+updates; reinstall the app after deploying and enable your password manager in iOS AutoFill settings. Verify that
+selecting the login email or password field suggests credentials saved for `groceries-app.com`.
+
+Changing the local hostname from `localhost` to `groceries-app.com` uses a new web-storage origin, so existing local
+session and theme preferences may need to be set again after the update.
 Credentials should be entered in the app, never stored in this repository.
