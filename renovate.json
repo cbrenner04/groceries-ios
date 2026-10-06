@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "automerge": false,
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "dependencies (non-major)"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@capacitor/core", "@capacitor/ios", "@capacitor/cli"],
+      "groupName": "Capacitor"
+    },
+    {
+      "description": "Capacitor sync owns the native Swift package version",
+      "matchManagers": ["swift"],
+      "matchFileNames": ["ios/App/CapApp-SPM/Package.swift"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["node"],
+      "allowedVersions": ">=24.15.0 <25"
+    }
+  ]
+}
