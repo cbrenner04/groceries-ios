@@ -1,0 +1,65 @@
+name: iOS CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate wrapper
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+      - name: Check copy script syntax
+        run: node --check scripts/copy-web.mjs
+      - name: Copy a web fixture
+        run: |
+          mkdir -p ../groceries-client/build
+          cat > ../groceries-client/build/index.html <<'HTML'
+          <!doctype html>
+          <html><head><title>Groceries CI</title></head><body>Wrapper build check</body></html>
+          HTML
+          npm run copy:web
+
+  ios-build:
+    name: Build iOS
+    needs: validate
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+      - name: Copy a web fixture
+        run: |
+          mkdir -p ../groceries-client/build
+          cat > ../groceries-client/build/index.html <<'HTML'
+          <!doctype html>
+          <html><head><title>Groceries CI</title></head><body>Wrapper build check</body></html>
+          HTML
+          npm run copy:web
+      - name: Sync Capacitor
+        run: npm run sync:ios
+      - name: Compile unsigned iOS app
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath .build \
+            CODE_SIGNING_ALLOWED=NO build

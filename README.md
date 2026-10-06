@@ -73,6 +73,24 @@ Run the relevant client tests in `groceries-client` before packaging UI changes.
 On the phone, check sign-in, editing and saving, sharing, keyboard visibility, scrolling, and relaunch behavior.
 Use your own credentials and data you are comfortable changing in production.
 
+## Pull request checks and dependency updates
+
+GitHub Actions runs two checks on pull requests and pushes to `main`, using Node 24.15.0:
+
+- **Validate wrapper** installs the locked npm dependencies, checks the copy script's syntax,
+  and exercises `copy:web` with a minimal HTML fixture.
+- **Build iOS** copies the fixture, syncs Capacitor, and compiles an unsigned device build on macOS.
+
+The fixture validates the wrapper's packaging and native dependencies. Client UI behavior is covered in
+`groceries-client`; device signing, password AutoFill, and safe-area behavior still need an iPhone smoke test.
+These checks do not access the private client repository or production API.
+Select **Validate wrapper** and **Build iOS** as required checks in GitHub's branch settings after they run.
+
+Renovate groups the Capacitor core, iOS, and CLI npm packages into one dependency update.
+Other minor and patch npm updates are grouped together. Updates are reviewed and merged manually.
+The native `CapApp-SPM/Package.swift` manifest is managed by `npm run sync:ios`, so Renovate does not edit it
+independently. After pulling a Capacitor update, sync the native project before building.
+
 ## Repository layout
 
 - `capacitor.config.json`: app identity, web asset directory, and native HTTP configuration.
